@@ -1,0 +1,49 @@
+N = 4  # You can change this to solve for any N
+
+def printSolution(board):
+    for row in board:
+        print(" ".join(str(val) for val in row))
+
+def isSafe(board, row, col):
+    # Check the current row on the left side
+    for i in range(col):
+        if board[row][i] == 1:
+            return False
+    # Check the upper diagonal on the left side
+    i, j = row, col
+    while i >= 0 and j >= 0:
+        if board[i][j] == 1:
+            return False
+        i -= 1
+        j -= 1
+    # Check the lower diagonal on the left side
+    i, j = row, col
+    while i < N and j >= 0:
+        if board[i][j] == 1:
+            return False
+        i += 1
+        j -= 1
+    return True
+
+def solveNQUtil(board, col):
+    if col >= N:
+        return True
+    for i in range(N):
+        if isSafe(board, i, col):
+            board[i][col] = 1
+            if solveNQUtil(board, col + 1):
+                return True
+            board[i][col] = 0
+    return False
+
+def solveNQ():
+    board = [[0 for _ in range(N)] for _ in range(N)]
+    if not solveNQUtil(board, 0):
+        print("Solution does not exist")
+        return False
+    print("One of the solutions to the N-Queens problem is:")
+    printSolution(board)
+    return True
+
+# Driver code
+solveNQ()
