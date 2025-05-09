@@ -1,0 +1,18 @@
+def first_fit(blocks, processes):
+    allocation = [-1] * len(processes)
+
+    for i, p in enumerate(processes):
+        for j, b in enumerate(blocks):
+            if b >= p:
+                allocation[i] = j
+                blocks[j] -= p
+                break
+
+    print("Process No.\tProcess Size\tBlock No.")
+    for i, p in enumerate(processes):
+        print(f"{i+1}\t\t{p}\t\t{allocation[i]+1 if allocation[i] != -1 else 'Not Allocated'}")
+
+# Example usage
+block_sizes = [100, 500, 200, 300, 600]
+process_sizes = [212, 417, 112, 426]
+first_fit(block_sizes, process_sizes)
